@@ -48,6 +48,7 @@ public class Game extends JFrame implements Observer {
             super.paint(g);
             paintGrids(g);
             paintTank(g);
+            paintBullets(g);
         }
 
         private void paintGrids(Graphics g) {
@@ -69,23 +70,33 @@ public class Game extends JFrame implements Observer {
             g.setColor(Color.green);
             g.fillRect(x, y, perCell, perCell);
         }
+
+        private void paintBullets(Graphics g) {
+            g.setColor(Color.green);
+            for(Bullet bullet : world.getBullets()) {
+                g.fillOval(bullet.getX(), bullet.getY(), 10, 10);
+            }
+        }
     }
 
     class Controller extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            if(e.getKeyCode() == KeyEvent.VK_UP) {
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
                 Command c = new CommandTurnNorth(world.getTank());
                 c.execute();
-            } else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 Command c = new CommandTurnSouth(world.getTank());
                 c.execute();
-            } else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 Command c = new CommandTurnWest(world.getTank());
                 c.execute();
-            } else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 Command c = new CommandTurnEast(world.getTank());
                 c.execute();
+            }
+            if (e.getKeyCode() == KeyEvent.VK_Z) {
+                world.burstBullets();
             }
         }
     }

@@ -6,6 +6,8 @@ public abstract class WorldObj {
     private int dx;
     private int dy;
 
+    private int speed = 3;
+
     public WorldObj() {
     }
 
@@ -35,8 +37,8 @@ public abstract class WorldObj {
     }
 
     public void move() {
-        this.x += dx;
-        this.y += dy;
+        this.x += dx * speed;
+        this.y += dy * speed;
     }
 
     public int getX() {
@@ -45,6 +47,34 @@ public abstract class WorldObj {
 
     public int getY() {
         return y;
+    }
+
+    public int getDx() {
+        return dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setDx(int dx) {
+        this.dx = dx;
+    }
+
+    public void setDy(int dy) {
+        this.dy = dy;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public void setPosition(int x, int y) {
