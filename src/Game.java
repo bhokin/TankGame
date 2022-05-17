@@ -49,7 +49,7 @@ public class Game extends JFrame implements Observer {
         @Override
         public void paint(Graphics g) {
             super.paint(g);
-            paintGrids(g);
+//            paintGrids(g);
             paintTank(g);
             paintBullets(g);
             paintBlocks(g);
@@ -108,11 +108,6 @@ public class Game extends JFrame implements Observer {
                         block.getY() - (block.getSize() / 2),
                         block.getSize(), block.getSize(),
                         null, null);
-                g.setColor(Color.black);
-                g.drawRect(block.getX() - (block.getSize() / 2),
-                        block.getY() - (block.getSize() / 2),
-                        block.getSize(),
-                        block.getSize());
             }
         }
     }

@@ -19,7 +19,7 @@ public class Tank extends WorldObj {
 
     public Tank(int x, int y, int tankNum, String face) {
         super(x, y);
-        setHitBoxSize(20);
+        setHitBoxSize(25);
         this.alive = true;
         this.tankNum = tankNum;
         setFace(face);
