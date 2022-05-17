@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
@@ -28,7 +30,6 @@ public class Game extends JFrame implements Observer {
 
     public void start() {
         setVisible(true);
-        world.start();
     }
 
     @Override
@@ -41,9 +42,29 @@ public class Game extends JFrame implements Observer {
         private Image brickImage = new ImageIcon("img/brick_wall.png").getImage();
         private Image steelImage = new ImageIcon("img/steel_wall.png").getImage();
         private Image treeImage = new ImageIcon("img/tree.png").getImage();
+        private JButton singlePlayerButton = new JButton("Single-Player");
+        private JButton multiPlayerButton = new JButton("Multi-Player");
 
         public Renderer() {
             setPreferredSize(new Dimension(size, size));
+
+            this.add(singlePlayerButton);
+            this.add(multiPlayerButton);
+            singlePlayerButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    singlePlayerButton.setVisible(false);
+                    multiPlayerButton.setVisible(false);
+                }
+            });
+            multiPlayerButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    singlePlayerButton.setVisible(false);
+                    multiPlayerButton.setVisible(false);
+                    world.startMultiPlayer();
+                }
+            });
         }
 
         @Override
@@ -89,6 +110,10 @@ public class Game extends JFrame implements Observer {
         private void paintBullets(Graphics g) {
             g.setColor(Color.green);
             for(Bullet bullet : world.getBullets()) {
+                g.drawOval(bullet.getX() - (bullet.getHitBoxSize() / 2),
+                        bullet.getY() - (bullet.getHitBoxSize() / 2),
+                        bullet.getHitBoxSize() / 2,
+                        bullet.getHitBoxSize() / 2);
                 g.fillOval(bullet.getX() - (bullet.getHitBoxSize() / 2),
                         bullet.getY() - (bullet.getHitBoxSize() / 2),
                         bullet.getHitBoxSize(),

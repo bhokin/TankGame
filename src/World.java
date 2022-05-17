@@ -15,14 +15,14 @@ public class World extends Observable {
 
     public World(int size) {
         this.blockSize = size;
-        tank1 = new Tank(0, 0, 1, "east");
-        tank2 = new Tank(0, 0, 2, "west");
+        tank1 = new Tank(-25, -25, 1, "east");
+        tank2 = new Tank(-25, -25, 2, "west");
         bullets = new ArrayList<Bullet>();
         blocks = new ArrayList<Block>();
         bulletPool = new BulletPool();
     }
 
-    public void start() {
+    public void startMultiPlayer() {
         tank1.setPosition(blockSize, 250);
         tank2.setPosition(500 - blockSize, 250);
         generateBlocks();
