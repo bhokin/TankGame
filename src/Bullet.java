@@ -5,6 +5,7 @@ public class Bullet extends WorldObj{
 
     public Bullet(int x, int y, int dx, int dy) {
         super(x, y);
+        setHitBoxSize(10);
         setDx(dx);
         setDy(dy);
         setSpeed(6);

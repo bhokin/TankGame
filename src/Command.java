@@ -1,7 +1,7 @@
 public abstract class Command {
     private Tank tank;  // Command know the receiver
 
-    // Constructure
+    // Constructor
     public Command(Tank tank) {
         this.tank = tank;
     }

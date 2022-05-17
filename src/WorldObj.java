@@ -7,6 +7,7 @@ public abstract class WorldObj {
     private int dy;
 
     private int speed = 3;
+    private int hitBoxSize;
 
     public WorldObj() {
     }
@@ -57,6 +58,10 @@ public abstract class WorldObj {
         return dy;
     }
 
+    public int getHitBoxSize() {
+        return hitBoxSize;
+    }
+
     public void setX(int x) {
         this.x = x;
     }
@@ -77,12 +82,19 @@ public abstract class WorldObj {
         this.speed = speed;
     }
 
+    public void setHitBoxSize(int hitBoxSize) {
+        this.hitBoxSize = hitBoxSize;
+    }
+
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public boolean hit(WorldObj wObj) {
-        return x == wObj.x && y == wObj.y;
+    public boolean hitBlock(Block block) {
+        return x + hitBoxSize / 2 >= block.getX() - block.getSize() / 2 &&
+                y + hitBoxSize / 2 >= block.getY() - block.getSize() / 2 &&
+                x - hitBoxSize / 2 <= block.getX() + block.getSize() / 2 &&
+                y - hitBoxSize / 2 <= block.getY() + block.getSize() / 2;
     }
 }
