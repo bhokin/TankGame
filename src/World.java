@@ -68,7 +68,17 @@ public class World extends Observable {
     }
 
     public void burstBullets() {
-        bullets.add(bulletPool.requestBullet(tank.getX(), tank.getY(), tank.getDx(), tank.getDy()));
+        int dx = 0, dy = 0;
+        if (tank.isFaceEast()) {
+            dx = 1;
+        } else if (tank.isFaceNorth()) {
+            dy = -1;
+        } else if (tank.isFaceSouth()) {
+            dy = 1;
+        } else if (tank.isFaceWest()) {
+            dx = -1;
+        }
+        bullets.add(bulletPool.requestBullet(tank.getX(), tank.getY(), dx, dy));
     }
 
     private void generateBlocks() {

@@ -25,18 +25,34 @@ public class Tank extends WorldObj {
             faceNorth = true; faceSouth = false; faceEast = false; faceWest = false;
             tankImage = new ImageIcon("img/tank1_up.png").getImage();
         } else if (Objects.equals(face, "south")) {
-            faceNorth = true; faceSouth = true; faceEast = false; faceWest = false;
+            faceNorth = false; faceSouth = true; faceEast = false; faceWest = false;
             tankImage = new ImageIcon("img/tank1_down.png").getImage();
         } else if (Objects.equals(face, "east")) {
-            faceNorth = true; faceSouth = false; faceEast = true; faceWest = false;
+            faceNorth = false; faceSouth = false; faceEast = true; faceWest = false;
             tankImage = new ImageIcon("img/tank1_right.png").getImage();
         } else if (Objects.equals(face, "west")) {
-            faceNorth = true; faceSouth = false; faceEast = false; faceWest = true;
+            faceNorth = false; faceSouth = false; faceEast = false; faceWest = true;
             tankImage = new ImageIcon("img/tank1_left.png").getImage();
         }
     }
 
     public Image getTankImage() {
         return tankImage;
+    }
+
+    public boolean isFaceEast() {
+        return faceEast;
+    }
+
+    public boolean isFaceNorth() {
+        return faceNorth;
+    }
+
+    public boolean isFaceSouth() {
+        return faceSouth;
+    }
+
+    public boolean isFaceWest() {
+        return faceWest;
     }
 }
