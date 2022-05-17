@@ -23,8 +23,8 @@ public class World extends Observable {
     }
 
     public void startMultiPlayer() {
-        tank1.setPosition(blockSize, 250);
-        tank2.setPosition(500 - blockSize, 250);
+        tank1.setPosition(blockSize*2, 250);
+        tank2.setPosition(500 - blockSize*2, 250);
         generateBlocks();
         mainThread = new Thread() {
             @Override
@@ -89,10 +89,41 @@ public class World extends Observable {
     }
 
     private void generateBlocks() {
-        for(int i = 0; i < blockSize / 2; i++) {
-            blocks.add(new BlockBrick(50, i * 25, 25));
-            blocks.add(new BlockSteel(150, i * 25, 25));
-            blocks.add(new BlockTree(250, i * 25, 25));
+        for(int i = 0; i < blockSize; i++) {
+            blocks.add(new BlockSteel(12, (i * 25) + 12, 25));
+            blocks.add(new BlockSteel(487, (i * 25) + 12, 25));
+            blocks.add(new BlockSteel((i * 25) + 12, 487, 25));
+            blocks.add(new BlockSteel((i * 25) + 12, 12, 25));
+        }
+        for(int i = 0; i < 6; i++) {
+            blocks.add(new BlockBrick(212, (i * 25) + 37, 25));
+            blocks.add(new BlockBrick(287, (i * 25) + 37, 25));
+            blocks.add(new BlockSteel(212, (i * 25) + 187, 25));
+            blocks.add(new BlockSteel(287, (i * 25) + 187, 25));
+            blocks.add(new BlockBrick(212, (i * 25) + 339, 25));
+            blocks.add(new BlockBrick(287, (i * 25) + 339, 25));
+            blocks.add(new BlockSteel(112, (i * 25) + 187, 25));
+            blocks.add(new BlockSteel(387, (i * 25) + 187, 25));
+        }
+        for(int i = 0; i < 18; i++) {
+            blocks.add(new BlockTree(162, (i * 25) + 37, 25));
+            blocks.add(new BlockTree(237, (i * 25) + 37, 25));
+            blocks.add(new BlockTree(263, (i * 25) + 37, 25));
+            blocks.add(new BlockTree(337, (i * 25) + 37, 25));
+        }
+        for(int i = 0; i < 3; i++) {
+            blocks.add(new BlockSteel(187, (i * 25) + 37, 25));
+            blocks.add(new BlockSteel(312, (i * 25) + 37, 25));
+            blocks.add(new BlockSteel(187, (i * 25) + 412, 25));
+            blocks.add(new BlockSteel(312, (i * 25) + 412, 25));
+            blocks.add(new BlockBrick((i * 25) + 37, 212, 25));
+            blocks.add(new BlockBrick((i * 25) + 37, 287, 25));
+            blocks.add(new BlockBrick((i * 25) + 412, 212, 25));
+            blocks.add(new BlockBrick((i * 25) + 412, 287, 25));
+        }
+        for(int i = 0; i < 2; i++) {
+            blocks.add(new BlockBrick(87, (i * 25) + 237, 25));
+            blocks.add(new BlockBrick(412, (i * 25) + 237, 25));
         }
     }
 

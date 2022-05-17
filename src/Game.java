@@ -17,6 +17,7 @@ public class Game extends JFrame implements Observer {
 
     public Game() {
         super();
+        setResizable(false);
         addKeyListener(new Controller());
         setLayout(new BorderLayout());
         renderer = new Renderer();
