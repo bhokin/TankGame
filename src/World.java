@@ -32,6 +32,7 @@ public class World extends Observable {
                     moveBullets();
                     cleanupBullets();
                     checkTankCollision();
+                    checkBulletHit();
                     setChanged();
                     notifyObservers();
                     try {
@@ -78,7 +79,7 @@ public class World extends Observable {
         } else if (tank.isFaceWest()) {
             dx = -1;
         }
-        bullets.add(bulletPool.requestBullet(tank.getX(), tank.getY(), dx, dy));
+        bullets.add(bulletPool.requestBullet(tank.getX(), tank.getY(), dx, dy, tank));
     }
 
     private void generateBlocks() {
@@ -98,6 +99,30 @@ public class World extends Observable {
                     System.out.println("Hit!");
                     break;
                 }
+            }
+        }
+    }
+
+    public void checkBulletHit() {
+        boolean isBreak = false;
+        for(Block block : blocks) {
+            for(Bullet bullet : bullets) {
+                if (bullet.hitBlock(block)) {
+                    if (!(block instanceof BlockTree)) {
+                        bullets.remove(bullet);
+                        bulletPool.releaseBullet(bullet);
+                        if (block instanceof BlockBrick) {
+                            blocks.remove(block);
+                            isBreak = true;
+                        }
+                        System.out.println("Bullet Hit!");
+                        break;
+                    }
+                }
+            }
+            if (isBreak) {
+                isBreak = false;
+                break;
             }
         }
     }
