@@ -9,31 +9,44 @@ public class Tank extends WorldObj {
     private boolean faceEast;
     private boolean faceWest;
 
+    private int tankNum;
     private Image tankImage;
+
+    public boolean alive;
 
     public Tank() {
     }
 
-    public Tank(int x, int y, String face) {
+    public Tank(int x, int y, int tankNum, String face) {
         super(x, y);
         setHitBoxSize(20);
+        this.alive = true;
+        this.tankNum = tankNum;
         setFace(face);
     }
 
     public void setFace(String face) {
         if (Objects.equals(face, "north")) {
             faceNorth = true; faceSouth = false; faceEast = false; faceWest = false;
-            tankImage = new ImageIcon("img/tank1_up.png").getImage();
+            tankImage = new ImageIcon("img/tank" + tankNum + "_up.png").getImage();
         } else if (Objects.equals(face, "south")) {
             faceNorth = false; faceSouth = true; faceEast = false; faceWest = false;
-            tankImage = new ImageIcon("img/tank1_down.png").getImage();
+            tankImage = new ImageIcon("img/tank" + tankNum + "_down.png").getImage();
         } else if (Objects.equals(face, "east")) {
             faceNorth = false; faceSouth = false; faceEast = true; faceWest = false;
-            tankImage = new ImageIcon("img/tank1_right.png").getImage();
+            tankImage = new ImageIcon("img/tank" + tankNum + "_right.png").getImage();
         } else if (Objects.equals(face, "west")) {
             faceNorth = false; faceSouth = false; faceEast = false; faceWest = true;
-            tankImage = new ImageIcon("img/tank1_left.png").getImage();
+            tankImage = new ImageIcon("img/tank" + tankNum + "_left.png").getImage();
         }
+    }
+
+    public boolean isShot(Bullet bullet) {
+        return getX() + getHitBoxSize() / 2 >= bullet.getX() - bullet.getHitBoxSize() / 2 &&
+                getY() + getHitBoxSize() / 2 >= bullet.getY() - bullet.getHitBoxSize() / 2 &&
+                getX() - getHitBoxSize() / 2 <= bullet.getX() + bullet.getHitBoxSize() / 2 &&
+                getY() - getHitBoxSize() / 2 <= bullet.getY() + bullet.getHitBoxSize() / 2 &&
+                (!bullet.getOwner().equals(this));
     }
 
     public Image getTankImage() {

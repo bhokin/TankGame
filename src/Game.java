@@ -38,6 +38,9 @@ public class Game extends JFrame implements Observer {
 
     class Renderer extends JPanel {
         private final int perCell = size/worldSize;
+        private Image brickImage = new ImageIcon("img/brick_wall.png").getImage();
+        private Image steelImage = new ImageIcon("img/steel_wall.png").getImage();
+        private Image treeImage = new ImageIcon("img/tree.png").getImage();
 
         public Renderer() {
             setPreferredSize(new Dimension(size, size));
@@ -66,14 +69,21 @@ public class Game extends JFrame implements Observer {
         }
 
         private void paintTank(Graphics g) {
-            int x = world.getTank().getX();
-            int y = world.getTank().getY();
-            int hitBox = world.getTank().getHitBoxSize();
-            g.drawImage(world.getTank().getTankImage(),
-                    x - (hitBox / 2), y - (hitBox / 2),
-                    hitBox, hitBox, null, null);
+            int xTank1 = world.getTank1().getX();
+            int yTank1 = world.getTank1().getY();
+            int xTank2 = world.getTank2().getX();
+            int yTank2 = world.getTank2().getY();
+            int hitBoxTank1 = world.getTank1().getHitBoxSize();
+            int hitBoxTank2 = world.getTank2().getHitBoxSize();
+            g.drawImage(world.getTank1().getTankImage(),
+                    xTank1 - (hitBoxTank1 / 2), yTank1 - (hitBoxTank1 / 2),
+                    hitBoxTank1, hitBoxTank1, null, null);
+            g.drawImage(world.getTank2().getTankImage(),
+                    xTank2 - (hitBoxTank2 / 2), yTank2 - (hitBoxTank2 / 2),
+                    hitBoxTank2, hitBoxTank2, null, null);
             g.setColor(Color.red);
-            g.drawRect(x - (hitBox / 2), y - (hitBox / 2), hitBox, hitBox);
+            g.drawRect(xTank1 - (hitBoxTank1 / 2), yTank1 - (hitBoxTank1 / 2), hitBoxTank1, hitBoxTank1);
+            g.drawRect(xTank2 - (hitBoxTank2 / 2), yTank2 - (hitBoxTank2 / 2), hitBoxTank2, hitBoxTank2);
         }
 
         private void paintBullets(Graphics g) {
@@ -88,26 +98,16 @@ public class Game extends JFrame implements Observer {
 
         private void paintBlocks(Graphics g) {
             for(Block block : world.getBlocks()) {
-                if (block instanceof BlockBrick) {
-                    g.setColor(Color.pink);
-                } else if (block instanceof BlockSteel) {
-                    g.setColor(Color.white);
+                Image image = brickImage;
+                if (block instanceof BlockSteel) {
+                    image = steelImage;
                 } else if (block instanceof BlockTree) {
-                    g.setColor(Color.green);
+                    image = treeImage;
                 }
-//                g.fillRect(block.getX(),
-//                        block.getY(),
-//                        block.getSize(),
-//                        block.getSize());
-//                g.setColor(Color.black);
-//                g.drawRect(block.getX(),
-//                        block.getY(),
-//                        block.getSize(),
-//                        block.getSize());
-                g.fillRect(block.getX() - (block.getSize() / 2),
+                g.drawImage(image, block.getX() - (block.getSize() / 2),
                         block.getY() - (block.getSize() / 2),
-                        block.getSize(),
-                        block.getSize());
+                        block.getSize(), block.getSize(),
+                        null, null);
                 g.setColor(Color.black);
                 g.drawRect(block.getX() - (block.getSize() / 2),
                         block.getY() - (block.getSize() / 2),
@@ -121,20 +121,36 @@ public class Game extends JFrame implements Observer {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_UP) {
-                Command c = new CommandTurnNorth(world.getTank());
+                Command c = new CommandTurnNorth(world.getTank1());
                 c.execute();
             } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                Command c = new CommandTurnSouth(world.getTank());
+                Command c = new CommandTurnSouth(world.getTank1());
                 c.execute();
             } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                Command c = new CommandTurnWest(world.getTank());
+                Command c = new CommandTurnWest(world.getTank1());
                 c.execute();
             } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                Command c = new CommandTurnEast(world.getTank());
+                Command c = new CommandTurnEast(world.getTank1());
                 c.execute();
             }
-            if (e.getKeyCode() == KeyEvent.VK_Z) {
-                world.burstBullets();
+            if (e.getKeyCode() == KeyEvent.VK_W) {
+                Command c = new CommandTurnNorth(world.getTank2());
+                c.execute();
+            } else if (e.getKeyCode() == KeyEvent.VK_S) {
+                Command c = new CommandTurnSouth(world.getTank2());
+                c.execute();
+            } else if (e.getKeyCode() == KeyEvent.VK_A) {
+                Command c = new CommandTurnWest(world.getTank2());
+                c.execute();
+            } else if (e.getKeyCode() == KeyEvent.VK_D) {
+                Command c = new CommandTurnEast(world.getTank2());
+                c.execute();
+            }
+            if (e.getKeyCode() == KeyEvent.VK_SEMICOLON) {
+                world.burstBullets(world.getTank1());
+            }
+            if (e.getKeyCode() == KeyEvent.VK_G) {
+                world.burstBullets(world.getTank2());
             }
         }
     }

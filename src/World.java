@@ -5,7 +5,7 @@ import java.util.Observable;
 public class World extends Observable {
 
     private int blockSize;
-    private Tank tank;
+    private Tank tank1, tank2;
     private List<Bullet> bullets;
     private BulletPool bulletPool;
     private List<Block> blocks;
@@ -15,23 +15,29 @@ public class World extends Observable {
 
     public World(int size) {
         this.blockSize = size;
-        tank = new Tank(0, 0, "east");
+        tank1 = new Tank(0, 0, 1, "east");
+        tank2 = new Tank(0, 0, 2, "west");
         bullets = new ArrayList<Bullet>();
         blocks = new ArrayList<Block>();
         bulletPool = new BulletPool();
     }
 
     public void start() {
-        tank.setPosition(blockSize, 250);
+        tank1.setPosition(blockSize, 250);
+        tank2.setPosition(500 - blockSize, 250);
         generateBlocks();
         mainThread = new Thread() {
             @Override
             public void run() {
-                while(true) {
-                    tank.move();
+                while(tank1.alive && tank2.alive) {
+                    tank1.move();
+                    tank2.move();
                     moveBullets();
                     cleanupBullets();
-                    checkTankCollision();
+                    checkTankCollision(tank1);
+                    checkTankCollision(tank2);
+                    checkTankShot(tank1);
+                    checkTankShot(tank2);
                     checkBulletHit();
                     setChanged();
                     notifyObservers();
@@ -68,7 +74,7 @@ public class World extends Observable {
         }
     }
 
-    public void burstBullets() {
+    public void burstBullets(Tank tank) {
         int dx = 0, dy = 0;
         if (tank.isFaceEast()) {
             dx = 1;
@@ -90,7 +96,7 @@ public class World extends Observable {
         }
     }
 
-    public void checkTankCollision() {
+    public void checkTankCollision(Tank tank) {
         for(Block block : blocks) {
             if (tank.hitBlock(block)) {
                 if (block instanceof BlockBrick || block instanceof BlockSteel) {
@@ -127,8 +133,20 @@ public class World extends Observable {
         }
     }
 
-    public Tank getTank() {
-        return tank;
+    public void checkTankShot(Tank tank) {
+        for(Bullet bullet : bullets) {
+            if (tank.isShot(bullet)) {
+                tank.alive = false;
+            }
+        }
+    }
+
+    public Tank getTank1() {
+        return tank1;
+    }
+
+    public Tank getTank2() {
+        return tank2;
     }
 
     public List<Bullet> getBullets() {

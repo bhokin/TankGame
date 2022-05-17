@@ -21,4 +21,8 @@ public class Bullet extends WorldObj{
         setDy(dy);
         this.owner = owner;
     }
+
+    public Tank getOwner() {
+        return owner;
+    }
 }
