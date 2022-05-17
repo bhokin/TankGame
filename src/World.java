@@ -100,8 +100,8 @@ public class World extends Observable {
         for(Block block : blocks) {
             if (tank.hitBlock(block)) {
                 if (block instanceof BlockBrick || block instanceof BlockSteel) {
-                    tank.setDx(0);
-                    tank.setDy(0);
+                    tank.setPosition(tank.getX() - (tank.getDx() * tank.getSpeed()),
+                            tank.getY() - (tank.getDy() * tank.getSpeed()));
                     System.out.println("Hit!");
                     break;
                 }

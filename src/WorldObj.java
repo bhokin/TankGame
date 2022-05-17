@@ -58,6 +58,10 @@ public abstract class WorldObj {
         return dy;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
     public int getHitBoxSize() {
         return hitBoxSize;
     }
