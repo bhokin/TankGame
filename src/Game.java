@@ -14,10 +14,10 @@ public class Game extends JFrame implements Observer {
     private World world;
 
     private Renderer renderer;
+    private MenuUI menuUI;
 
     public Game() {
         super();
-        setResizable(false);
         addKeyListener(new Controller());
         setLayout(new BorderLayout());
         renderer = new Renderer();
@@ -27,10 +27,17 @@ public class Game extends JFrame implements Observer {
         setSize(size + 20, size + 40);
         setAlwaysOnTop(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        requestFocus();
     }
 
     public void start() {
         setVisible(true);
+        startMenu();
+    }
+
+    public void startMenu() {
+        menuUI = new MenuUI();
+        add(menuUI);
     }
 
     @Override
@@ -38,19 +45,17 @@ public class Game extends JFrame implements Observer {
         renderer.repaint();
     }
 
-    class Renderer extends JPanel {
-        private final int perCell = size/worldSize;
-        private Image brickImage = new ImageIcon("img/brick_wall.png").getImage();
-        private Image steelImage = new ImageIcon("img/steel_wall.png").getImage();
-        private Image treeImage = new ImageIcon("img/tree.png").getImage();
-        private JButton singlePlayerButton = new JButton("Single-Player");
-        private JButton multiPlayerButton = new JButton("Multi-Player");
+    class MenuUI extends JPanel {
+        private JButton singlePlayerButton;
+        private JButton multiPlayerButton;
+        private JLabel menuLabel;
 
-        public Renderer() {
+        public MenuUI() {
             setPreferredSize(new Dimension(size, size));
-
-            this.add(singlePlayerButton);
-            this.add(multiPlayerButton);
+            setLayout(new FlowLayout());
+            menuLabel = new JLabel("Select Player Mode");
+            add(menuLabel);
+            singlePlayerButton = new JButton("Single-Player");
             singlePlayerButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -58,6 +63,8 @@ public class Game extends JFrame implements Observer {
                     multiPlayerButton.setVisible(false);
                 }
             });
+            add(singlePlayerButton);
+            multiPlayerButton = new JButton("Multi-Player");
             multiPlayerButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -66,6 +73,19 @@ public class Game extends JFrame implements Observer {
                     world.startMultiPlayer();
                 }
             });
+            add(multiPlayerButton);
+            pack();
+        }
+    }
+
+    class Renderer extends JPanel {
+        private final int perCell = size/worldSize;
+        private Image brickImage = new ImageIcon("img/brick_wall.png").getImage();
+        private Image steelImage = new ImageIcon("img/steel_wall.png").getImage();
+        private Image treeImage = new ImageIcon("img/tree.png").getImage();
+
+        public Renderer() {
+            setPreferredSize(new Dimension(size, size));
         }
 
         @Override
