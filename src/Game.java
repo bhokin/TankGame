@@ -62,6 +62,7 @@ public class Game extends JFrame implements Observer {
                 public void actionPerformed(ActionEvent e) {
                     singlePlayerButton.setVisible(false);
                     multiPlayerButton.setVisible(false);
+                    world.startSinglePlayer(new RandomRunAndGunStrategy());
                     singlePlayerMode = true;
                     Game.this.requestFocus();
                 }
@@ -73,8 +74,8 @@ public class Game extends JFrame implements Observer {
                 public void actionPerformed(ActionEvent e) {
                     singlePlayerButton.setVisible(false);
                     multiPlayerButton.setVisible(false);
-                    singlePlayerMode = false;
                     world.startMultiPlayer();
+                    singlePlayerMode = false;
                     Game.this.requestFocus();
                 }
             });
