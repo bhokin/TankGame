@@ -41,21 +41,38 @@ public class Game extends JFrame implements Observer {
         add(menuUI);
     }
 
+    public void messageEndGame() {
+        String message, title;
+        if (singlePlayerMode) {
+            if (world.getTank2().alive) {
+                message = "You lose to AI";
+                title = "You lose!";
+            } else {
+                message = "You win against AI";
+                title = "You win!";
+            }
+        } else {
+            int playerWin = 1;
+            if (world.getTank2().alive) {
+                playerWin = 2;
+            }
+            message = "Congratulation to Player " + playerWin;
+            title = "Player" + playerWin + "Win!";
+        }
+        JOptionPane.showMessageDialog(
+                this,
+                message,
+                title,
+                JOptionPane.WARNING_MESSAGE
+        );
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         renderer.repaint();
         if (!world.getTank1().alive || !world.getTank2().alive) {
-            int playerWin = 2;
-            if (world.getTank1().alive) {
-                playerWin = 1;
-            }
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Congratulation to Player " + playerWin,
-                    "Player" + playerWin + "Win",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            System.exit(1);
+            messageEndGame();
+            System.exit(0);
         }
     }
 
