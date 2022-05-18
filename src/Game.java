@@ -12,6 +12,7 @@ public class Game extends JFrame implements Observer {
     private int size = 500;
     private int worldSize = 20;
     private World world;
+    private boolean singlePlayerMode;
 
     private Renderer renderer;
     private MenuUI menuUI;
@@ -61,6 +62,8 @@ public class Game extends JFrame implements Observer {
                 public void actionPerformed(ActionEvent e) {
                     singlePlayerButton.setVisible(false);
                     multiPlayerButton.setVisible(false);
+                    singlePlayerMode = true;
+                    Game.this.requestFocus();
                 }
             });
             add(singlePlayerButton);
@@ -70,6 +73,7 @@ public class Game extends JFrame implements Observer {
                 public void actionPerformed(ActionEvent e) {
                     singlePlayerButton.setVisible(false);
                     multiPlayerButton.setVisible(false);
+                    singlePlayerMode = false;
                     world.startMultiPlayer();
                     Game.this.requestFocus();
                 }
@@ -193,6 +197,26 @@ public class Game extends JFrame implements Observer {
             }
             if (e.getKeyCode() == KeyEvent.VK_G) {
                 world.burstBullets(world.getTank2());
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (!singlePlayerMode) {
+                if ((e.getKeyCode() == KeyEvent.VK_W) && world.getTank2().isFaceNorth() ||
+                        (e.getKeyCode() == KeyEvent.VK_S) && world.getTank2().isFaceSouth() ||
+                        (e.getKeyCode() == KeyEvent.VK_A) && world.getTank2().isFaceWest() ||
+                        (e.getKeyCode() == KeyEvent.VK_D) && world.getTank2().isFaceEast()) {
+                    Command c = new CommandStopMoving(world.getTank2());
+                    c.execute();
+                }
+            }
+            if ((e.getKeyCode() == KeyEvent.VK_UP) && world.getTank1().isFaceNorth() ||
+                    (e.getKeyCode() == KeyEvent.VK_DOWN) && world.getTank1().isFaceSouth() ||
+                    (e.getKeyCode() == KeyEvent.VK_LEFT) && world.getTank1().isFaceWest() ||
+                    (e.getKeyCode() == KeyEvent.VK_RIGHT) && world.getTank1().isFaceEast() ) {
+                Command c = new CommandStopMoving(world.getTank1());
+                c.execute();
             }
         }
     }
