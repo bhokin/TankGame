@@ -71,6 +71,7 @@ public class Game extends JFrame implements Observer {
                     singlePlayerButton.setVisible(false);
                     multiPlayerButton.setVisible(false);
                     world.startMultiPlayer();
+                    Game.this.requestFocus();
                 }
             });
             add(multiPlayerButton);
