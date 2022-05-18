@@ -44,6 +44,19 @@ public class Game extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         renderer.repaint();
+        if (!world.getTank1().alive || !world.getTank2().alive) {
+            int playerWin = 2;
+            if (world.getTank1().alive) {
+                playerWin = 1;
+            }
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Congratulation to Player " + playerWin,
+                    "Player" + playerWin + "Win",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            System.exit(1);
+        }
     }
 
     class MenuUI extends JPanel {

@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -22,32 +23,37 @@ public class World extends Observable {
         bulletPool = new BulletPool();
     }
 
+    private void gameThreadLogic() {
+        tank1.move();
+        tank2.move();
+        moveBullets();
+        cleanupBullets();
+        checkTankCollision(tank1);
+        checkTankCollision(tank2);
+        checkTankShot(tank1);
+        checkTankShot(tank2);
+        checkBulletHit();
+        setChanged();
+        notifyObservers();
+        try {
+            Thread.sleep(delayed);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void startSinglePlayer(AIStrategy aIStrategy) {
         tank1.setPosition(blockSize*2, 250);
         tank2.setPosition(500 - blockSize*2, 250);
         generateBlocks();
         mainThread = new Thread() {
             @Override
-            public void run() {while (tank1.alive && tank2.alive) {
-                tank1.move();
-                Command command = aIStrategy.getNextMoveCommand(World.this, tank2);
-                if (command != null) {
-                    command.execute();
-                }
-                tank2.move();
-                moveBullets();
-                cleanupBullets();
-                checkTankCollision(tank1);
-                checkTankCollision(tank2);
-                checkTankShot(tank1);
-                checkTankShot(tank2);
-                checkBulletHit();
-                setChanged();
-                notifyObservers();
-                try {
-                    Thread.sleep(delayed);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            public void run() {
+                while (tank1.alive && tank2.alive) {
+                    gameThreadLogic();
+                    Command command = aIStrategy.getNextMoveCommand(World.this, tank2);
+                    if (command != null) {
+                        command.execute();
                 }
             }
             }
@@ -61,24 +67,10 @@ public class World extends Observable {
         generateBlocks();
         mainThread = new Thread() {
             @Override
-            public void run() {while (tank1.alive && tank2.alive) {
-                tank1.move();
-                tank2.move();
-                moveBullets();
-                cleanupBullets();
-                checkTankCollision(tank1);
-                checkTankCollision(tank2);
-                checkTankShot(tank1);
-                checkTankShot(tank2);
-                checkBulletHit();
-                setChanged();
-                notifyObservers();
-                try {
-                    Thread.sleep(delayed);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            public void run() {
+                while (tank1.alive && tank2.alive) {
+                    gameThreadLogic();
                 }
-            }
             }
         };
         mainThread.start();
