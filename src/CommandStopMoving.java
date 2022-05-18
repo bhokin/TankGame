@@ -1,11 +1,11 @@
-public class CommandStop extends Command{
+public class CommandStopMoving extends Command{
 
-    public CommandStop(Tank tank) {
+    public CommandStopMoving(Tank tank) {
         super(tank);
     }
 
     @Override
     public void execute() {
-        getTank().stop();
+        getTank().stopMoving();
     }
 }

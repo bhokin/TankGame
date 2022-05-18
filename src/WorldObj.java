@@ -42,6 +42,11 @@ public abstract class WorldObj {
         this.y += dy * speed;
     }
 
+    public void stopMoving() {
+        dx = 0;
+        dy = 0;
+    }
+
     public int getX() {
         return x;
     }
