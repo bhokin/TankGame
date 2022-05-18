@@ -166,6 +166,25 @@ public class Game extends JFrame implements Observer {
     class Controller extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
+            if (!singlePlayerMode) {
+                if (e.getKeyCode() == KeyEvent.VK_W) {
+                    Command c = new CommandTurnNorth(world.getTank2());
+                    c.execute();
+                } else if (e.getKeyCode() == KeyEvent.VK_S) {
+                    Command c = new CommandTurnSouth(world.getTank2());
+                    c.execute();
+                } else if (e.getKeyCode() == KeyEvent.VK_A) {
+                    Command c = new CommandTurnWest(world.getTank2());
+                    c.execute();
+                } else if (e.getKeyCode() == KeyEvent.VK_D) {
+                    Command c = new CommandTurnEast(world.getTank2());
+                    c.execute();
+                }
+                if (e.getKeyCode() == KeyEvent.VK_G) {
+                    Command c = new CommandShoot(world.getTank2(), world);
+                    c.execute();
+                }
+            }
             if (e.getKeyCode() == KeyEvent.VK_UP) {
                 Command c = new CommandTurnNorth(world.getTank1());
                 c.execute();
@@ -179,24 +198,9 @@ public class Game extends JFrame implements Observer {
                 Command c = new CommandTurnEast(world.getTank1());
                 c.execute();
             }
-            if (e.getKeyCode() == KeyEvent.VK_W) {
-                Command c = new CommandTurnNorth(world.getTank2());
-                c.execute();
-            } else if (e.getKeyCode() == KeyEvent.VK_S) {
-                Command c = new CommandTurnSouth(world.getTank2());
-                c.execute();
-            } else if (e.getKeyCode() == KeyEvent.VK_A) {
-                Command c = new CommandTurnWest(world.getTank2());
-                c.execute();
-            } else if (e.getKeyCode() == KeyEvent.VK_D) {
-                Command c = new CommandTurnEast(world.getTank2());
-                c.execute();
-            }
             if (e.getKeyCode() == KeyEvent.VK_SEMICOLON) {
-                world.burstBullets(world.getTank1());
-            }
-            if (e.getKeyCode() == KeyEvent.VK_G) {
-                world.burstBullets(world.getTank2());
+                Command c = new CommandShoot(world.getTank1(), world);
+                c.execute();
             }
         }
 
