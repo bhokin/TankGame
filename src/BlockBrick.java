@@ -7,5 +7,6 @@ public class BlockBrick extends Block {
         super(x, y, size);
         setBreakable(true);
         setPassable(false);
+        setBuff(false);
     }
 }

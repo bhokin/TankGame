@@ -7,5 +7,6 @@ public class BlockSteel extends Block {
         super(x, y, size);
         setBreakable(false);
         setPassable(false);
+        setBuff(false);
     }
 }

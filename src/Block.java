@@ -5,6 +5,7 @@ public abstract class Block {
 
     private boolean breakable;
     private boolean passable;
+    private boolean buff;
 
     public Block(){
     }
@@ -53,5 +54,13 @@ public abstract class Block {
 
     public void setPassable(boolean passable) {
         this.passable = passable;
+    }
+
+    public boolean isBuff() {
+        return buff;
+    }
+
+    public void setBuff(boolean buff) {
+        this.buff = buff;
     }
 }

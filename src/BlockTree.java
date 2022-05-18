@@ -7,5 +7,6 @@ public class BlockTree extends Block {
         super(x, y, size);
         setBreakable(false);
         setPassable(true);
+        setBuff(false);
     }
 }

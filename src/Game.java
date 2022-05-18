@@ -179,17 +179,31 @@ public class Game extends JFrame implements Observer {
         }
 
         private void paintBlocks(Graphics g) {
+            Image image;
             for(Block block : world.getBlocks()) {
-                Image image = brickImage;
-                if (block instanceof BlockSteel) {
-                    image = steelImage;
-                } else if (block instanceof BlockTree) {
-                    image = treeImage;
+                if (block instanceof BlockBuff) {
+                    g.setColor(Color.black);
+                    g.fillOval(block.getX() - (block.getSize() / 2),
+                            block.getY() - (block.getSize() / 2),
+                            block.getSize() / 2,
+                            block.getSize() / 2);
+                    g.setColor(Color.red);
+                    g.drawOval(block.getX() - (block.getSize() / 2),
+                            block.getY() - (block.getSize() / 2),
+                            block.getSize() / 2,
+                            block.getSize() / 2);
+                } else {
+                    image = brickImage;
+                    if (block instanceof BlockSteel) {
+                        image = steelImage;
+                    } else if (block instanceof BlockTree) {
+                        image = treeImage;
+                    }
+                    g.drawImage(image, block.getX() - (block.getSize() / 2),
+                            block.getY() - (block.getSize() / 2),
+                            block.getSize(), block.getSize(),
+                            null, null);
                 }
-                g.drawImage(image, block.getX() - (block.getSize() / 2),
-                        block.getY() - (block.getSize() / 2),
-                        block.getSize(), block.getSize(),
-                        null, null);
             }
         }
     }

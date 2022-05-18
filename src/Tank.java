@@ -13,6 +13,7 @@ public class Tank extends WorldObj {
     private Image tankImage;
 
     public boolean alive;
+    private boolean buffed;
 
     public Tank() {
     }
@@ -21,6 +22,7 @@ public class Tank extends WorldObj {
         super(x, y);
         setHitBoxSize(25);
         this.alive = true;
+        this.buffed = false;
         this.tankNum = tankNum;
         setFace(face);
     }
@@ -67,5 +69,13 @@ public class Tank extends WorldObj {
 
     public boolean isFaceWest() {
         return faceWest;
+    }
+
+    public boolean isBuffed() {
+        return buffed;
+    }
+
+    public void setBuffed(boolean buffed) {
+        this.buffed = buffed;
     }
 }

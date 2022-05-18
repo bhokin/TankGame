@@ -46,6 +46,7 @@ public class World extends Observable {
         tank1.setPosition(blockSize*2, 250);
         tank2.setPosition(500 - blockSize*2, 250);
         generateBlocks();
+        generateBuffs();
         mainThread = new Thread() {
             @Override
             public void run() {
@@ -65,6 +66,7 @@ public class World extends Observable {
         tank1.setPosition(blockSize*2, 250);
         tank2.setPosition(500 - blockSize*2, 250);
         generateBlocks();
+        generateBuffs();
         mainThread = new Thread() {
             @Override
             public void run() {
@@ -110,6 +112,15 @@ public class World extends Observable {
             dx = -1;
         }
         bullets.add(bulletPool.requestBullet(tank.getX(), tank.getY(), dx, dy, tank));
+        if (tank.isBuffed()) {
+            if (tank.isFaceNorth() || tank.isFaceSouth()) {
+                bullets.add(bulletPool.requestBullet(tank.getX() - 15, tank.getY(), dx, dy, tank));
+                bullets.add(bulletPool.requestBullet(tank.getX() + 15, tank.getY(), dx, dy, tank));
+            } else if (tank.isFaceEast() || tank.isFaceWest()) {
+                bullets.add(bulletPool.requestBullet(tank.getX(), tank.getY() - 15, dx, dy, tank));
+                bullets.add(bulletPool.requestBullet(tank.getX(), tank.getY() + 15, dx, dy, tank));
+            }
+        }
     }
 
     private void generateBlocks() {
@@ -151,12 +162,21 @@ public class World extends Observable {
         }
     }
 
+    private void generateBuffs() {
+        blocks.add(new BlockBuff(255, (9 * 25) + 37, 20));
+    }
+
     public void checkTankCollision(Tank tank) {
         for(Block block : blocks) {
             if (tank.hitBlock(block)) {
-                if (block instanceof BlockBrick || block instanceof BlockSteel) {
+                if (!block.isPassable()) {
                     tank.setPosition(tank.getX() - (tank.getDx() * tank.getSpeed()),
                             tank.getY() - (tank.getDy() * tank.getSpeed()));
+                    break;
+                }
+                if (block.isBuff()) {
+                    blocks.remove(block);
+                    tank.setBuffed(true);
                     break;
                 }
             }
@@ -168,10 +188,10 @@ public class World extends Observable {
         for(Block block : blocks) {
             for(Bullet bullet : bullets) {
                 if (bullet.hitBlock(block)) {
-                    if (!(block instanceof BlockTree)) {
+                    if (!block.isPassable()) {
                         bullets.remove(bullet);
                         bulletPool.releaseBullet(bullet);
-                        if (block instanceof BlockBrick) {
+                        if (block.isBreakable()) {
                             blocks.remove(block);
                             isBreak = true;
                         }
