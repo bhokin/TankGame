@@ -30,16 +30,16 @@ public class Tank extends WorldObj {
     public void setFace(String face) {
         if (Objects.equals(face, "north")) {
             faceNorth = true; faceSouth = false; faceEast = false; faceWest = false;
-            tankImage = new ImageIcon("img/tank" + tankNum + "_up.png").getImage();
+            tankImage = new ImageIcon(getClass().getResource("img/tank" + tankNum + "_up.png")).getImage();
         } else if (Objects.equals(face, "south")) {
             faceNorth = false; faceSouth = true; faceEast = false; faceWest = false;
-            tankImage = new ImageIcon("img/tank" + tankNum + "_down.png").getImage();
+            tankImage = new ImageIcon(getClass().getResource("img/tank" + tankNum + "_down.png")).getImage();
         } else if (Objects.equals(face, "east")) {
             faceNorth = false; faceSouth = false; faceEast = true; faceWest = false;
-            tankImage = new ImageIcon("img/tank" + tankNum + "_right.png").getImage();
+            tankImage = new ImageIcon(getClass().getResource("img/tank" + tankNum + "_right.png")).getImage();
         } else if (Objects.equals(face, "west")) {
             faceNorth = false; faceSouth = false; faceEast = false; faceWest = true;
-            tankImage = new ImageIcon("img/tank" + tankNum + "_left.png").getImage();
+            tankImage = new ImageIcon(getClass().getResource("img/tank" + tankNum + "_left.png")).getImage();
         }
     }
 

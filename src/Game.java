@@ -116,9 +116,9 @@ public class Game extends JFrame implements Observer {
 
     class Renderer extends JPanel {
         private final int perCell = size/worldSize;
-        private Image brickImage = new ImageIcon("img/brick_wall.png").getImage();
-        private Image steelImage = new ImageIcon("img/steel_wall.png").getImage();
-        private Image treeImage = new ImageIcon("img/tree.png").getImage();
+        private Image brickImage = new ImageIcon(getClass().getResource("img/brick_wall.png")).getImage();
+        private Image steelImage = new ImageIcon(getClass().getResource("img/steel_wall.png")).getImage();
+        private Image treeImage = new ImageIcon(getClass().getResource("img/tree.png")).getImage();
 
         public Renderer() {
             setPreferredSize(new Dimension(size, size));
